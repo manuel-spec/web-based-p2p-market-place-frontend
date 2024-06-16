@@ -1,45 +1,47 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
-const Signup = () => {
+export default function SignUp() {
   return (
-    <div className="grid">
-        <Card>
-        <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">Create an account</CardTitle>
-            <CardDescription>
-            Enter your email below to create your account
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-            
-            <div className="relative">
-            
+    <div className="grid md:grid-cols-2 w-full min-h-screen ">
+      
+      <div className="flex items-center justify-center px-4 py-12 md:px-6">
+        <Card className="w-full max-w-md space-y-4">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
+            <CardDescription>Enter your email and password to create a new account.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+          <div className="space-y-2">
+              <Label htmlFor="email">Fullname</Label>
+              <Input id="name" type="text" placeholder="Jhon Doe" required />
             </div>
-            <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" />
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="m@example.com" required />
             </div>
-            <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" required />
             </div>
-        </CardContent>
-        <CardFooter>
-            <Button className="w-full">Create account</Button>
-        </CardFooter>
-    </Card>
+          </CardContent>
+          <CardFooter>
+            <Button type="submit" className="w-full">
+              Signup
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+      <div className="hidden md:block relative">
+        <img
+          src="https://cloudcommercepro.com/wp-content/uploads/2020/09/marketplace-hero.jpg"
+          alt="Login Image"
+      
+          className=" h-full w-full object-cover"
+        />
+      </div>
     </div>
   )
 }
-
-export default Signup

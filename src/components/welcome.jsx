@@ -71,7 +71,7 @@ export default function Welcome() {
                   </Avatar>
                   <h3 className="text-xl font-bold">John Doe</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    "PeerConnect Inc provides the best service in the market. I'm very satisfied with their service."
+                    PeerConnect Inc provides the best service in the market. I am very satisfied with their service.
                   </p>
                 </CardContent>
               </Card>
@@ -83,7 +83,7 @@ export default function Welcome() {
                   </Avatar>
                   <h3 className="text-xl font-bold">Jane Doe</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    "I love the products from PeerConnect Inc. They are of high quality and affordable."
+                    I love the products from PeerConnect Inc. They are of high quality and affordable.
                   </p>
                 </CardContent>
               </Card>
@@ -95,7 +95,7 @@ export default function Welcome() {
                   </Avatar>
                   <h3 className="text-xl font-bold">Jim Doe</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    "The customer service from PeerConnect Inc is top-notch. They are always available to help."
+                    The customer service from PeerConnect Inc is top-notch. They are always available to help.
                   </p>
                 </CardContent>
               </Card>
@@ -111,7 +111,7 @@ export default function Welcome() {
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2">
-              <Button className="w-full">Sign Up</Button>
+              <Link to={"/signup"}><Button className="w-full">Sign Up</Button></Link>
             </div>
           </div>
         </section>
