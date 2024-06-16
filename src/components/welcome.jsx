@@ -111,7 +111,7 @@ export default function Welcome() {
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2">
-              <Link to={"/signup"}><Button className="w-full">Sign Up</Button></Link>
+              <Link to={"/auth/signup"}><Button className="w-full">Sign Up</Button></Link>
             </div>
           </div>
         </section>
