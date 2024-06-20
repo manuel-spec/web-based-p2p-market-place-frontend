@@ -4,16 +4,13 @@ const Nav = () => {
   return (
     <div>
         <header className="h-20 flex items-center px-6">
-        <Link className="flex items-center justify-center" href="#">
+        <Link className="flex items-center justify-center" to={"/"}>
           <MountainIcon className="h-6 w-6" />
           
         </Link>
         <nav className="ml-auto flex gap-4">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/products"}>
             Products
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Pricing
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             About
