@@ -6,8 +6,18 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
+
 } from "@/components/ui/dropdown-menu";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+  } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -56,25 +66,7 @@ function ListOrderedIcon(props) {
   );
 }
 
-function SearchIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
+
 
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -187,9 +179,11 @@ export default function Products() {
       });
     }
   };
+  const [drawer, setDrawer] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen">
+        
       <header className="w-full py-24 bg-gray-100 dark:bg-gray-800">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -319,7 +313,32 @@ export default function Products() {
                   <span className="text-primary font-semibold">
                     ${product.price.toFixed(2)}
                   </span>
-                  <Button>Add to Cart</Button>
+                  
+                  <Drawer className="p-20">
+                    <DrawerTrigger asChild>
+                        
+                        <Button >More ..</Button>
+                        
+                    </DrawerTrigger>
+                    <DrawerContent>
+                        <div className="mx-auto w-full max-w-sm">
+                        <DrawerHeader>
+                            <DrawerTitle>Info About the Product</DrawerTitle>
+                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
+                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
+                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
+                            
+                        </DrawerHeader>
+                    
+                        <DrawerFooter>
+                          
+                            <DrawerClose asChild>
+                            <Button variant="outline">Cancel</Button>
+                            </DrawerClose>
+                        </DrawerFooter>
+                        </div>
+                    </DrawerContent>
+                    </Drawer>
                 </div>
               </div>
             ))}
