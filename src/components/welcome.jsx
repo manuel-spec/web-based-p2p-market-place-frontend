@@ -6,26 +6,7 @@ import { Button } from "@/components/ui/button"
 export default function Welcome() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="h-20 flex items-center px-6">
-        <Link className="flex items-center justify-center" href="#">
-          <MountainIcon className="h-6 w-6" />
-          
-        </Link>
-        <nav className="ml-auto flex gap-4">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Products
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Pricing
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            About
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Contact
-          </Link>
-        </nav>
-      </header>
+  
       <main className="flex-1">
         <section className="w-full py-24 bg-gray-100 dark:bg-gray-800">
           <div className="container px-4 md:px-6">
