@@ -27,7 +27,7 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/products"}>
             Products
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/about"}>
             About
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
