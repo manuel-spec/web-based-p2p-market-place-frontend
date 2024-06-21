@@ -2,8 +2,18 @@ import { Link } from "react-router-dom"
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar"
 import { CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import Cookie from "universal-cookie"
+import { ArrowUpRight } from "lucide-react"
 
 export default function Welcome() {
+  const [name, setName] = useState(null)
+  const [email, setEmail] = useState(null)
+  const cookies = new Cookie()
+    useEffect(() => {
+      setName(cookies.get("name"))
+      setEmail(cookies.get("email"))
+    },[])
   return (
     <div className="flex flex-col min-h-screen">
   
@@ -91,9 +101,16 @@ export default function Welcome() {
                 Join us today and experience the best service.
               </p>
             </div>
-            <div className="mx-auto w-full max-w-sm space-y-2">
-              <Link to={"/auth/signup"}><Button className="w-full">Sign Up</Button></Link>
-            </div>
+            {!name && !email && (
+              <div className="mx-auto w-full max-w-sm space-y-2">
+                <Link to={"/auth/signup"}><Button className="w-full">Sign Up</Button></Link>
+              </div>
+            )}
+            {name && email && (
+              <div className="mx-auto w-full max-w-sm space-y-2">
+                <Link to={"/products"}><Button className="w-full">Products <span className=""><ArrowUpRight size={18} /></span></Button></Link>
+              </div>
+            )}
           </div>
         </section>
       </main>
