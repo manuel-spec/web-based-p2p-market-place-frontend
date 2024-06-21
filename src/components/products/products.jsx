@@ -179,7 +179,7 @@ export default function Products() {
       });
     }
   };
-  const [drawer, setDrawer] = useState(false);
+//   const [drawer, setDrawer] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen">
