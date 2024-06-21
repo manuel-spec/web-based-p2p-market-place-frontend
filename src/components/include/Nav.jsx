@@ -40,9 +40,9 @@ const Nav = () => {
             </div>
           )}
           {!name && !email && (
-            <div>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/signup"}>
-              Sign Up
+            <div className='ml-auto flex gap-4 items-center'>
+            <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/signup"}>
+              Register
             </Link>
             <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/login"}>
               Login

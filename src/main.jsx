@@ -21,10 +21,10 @@ const ProtectedRoute = ({ element: Component }) => {
     // Check if JWT token exists
     if (!token) {
       // Redirect to sign-in page if token doesn't exist
-      navigate("/auth/signin");
+      navigate("/auth/login");
     }
   }, [token, navigate]);
-  
+
   return token ? <Component /> : null;
 };
 
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/products',
-        element: <Products />
+           element: <ProtectedRoute element={Products} />,
       }
     ]
   },
