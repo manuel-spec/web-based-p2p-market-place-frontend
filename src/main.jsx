@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Profile from './components/profile/profile.jsx'
 import About from './components/about/about';
 import Contact from './components/contact/contact.jsx'
+import Post from './components/post/post.jsx'
 
 const ProtectedRoute = ({ element: Component }) => {
   const cookies = new Cookies();
@@ -56,7 +57,11 @@ const router = createBrowserRouter([
       {
         path: '/contact',
            element: <Contact />,
-      }
+      },
+      {
+        path:'/add-product',
+        element:< Post/>
+      },
     ]
   },
   {

@@ -12,7 +12,7 @@ export default function Component() {
             <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Get in Touch</h1>
               <p className="text-muted-foreground md:text-xl">
-                Have a question or need help? Fill out the form and we'll get back to you as soon as possible.
+                Have a question or need help? Fill out the form and we&apos;ll get back to you as soon as possible.
               </p>
             </div>
             <div>
