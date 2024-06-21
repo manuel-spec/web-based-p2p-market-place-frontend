@@ -7,18 +7,23 @@ import { useState } from "react";
 import axios from "axios";
 import Cookie from "universal-cookie";
 import { TailSpin } from 'react-loader-spinner';
+import {
+  Alert,
+  AlertDescription,
+} from "@/components/ui/alert"
 
 export default function SignUp() {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error,setError] = useState(null);
   const navigate = useNavigate();
   const cookie = new Cookie();
 
   const handleSignup = ()=>{
-    if(name.length > 0 && username.length > 0 && email.length > 0 && password.length > 0){
+    if(name && username && email && password){
       setLoading(true);
       axios.post("http://localhost:8000/api/auth/register",{
       name: name,
@@ -33,7 +38,8 @@ export default function SignUp() {
       navigate("/products");
     }).catch((err)=>{
       setLoading(false);
-      console.log(err);
+      
+      setError(err.response.data.message)
     })
     }
   }
@@ -86,7 +92,18 @@ export default function SignUp() {
                 Login
               </Link>
             </p>
+            {error && (
+            <div className="">
+              <Alert variant="destructive">
+              
+              <AlertDescription>
+                {error}
+              </AlertDescription>
+            </Alert>
+            </div>
+            )}
           </div>
+
         </Card>
         </form>
       </div>
