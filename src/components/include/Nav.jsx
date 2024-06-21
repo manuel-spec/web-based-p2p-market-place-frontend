@@ -34,10 +34,12 @@ const Nav = () => {
             Contact
           </Link>
           {name && email && (
-            <div className='border rounded-xl p-2 flex'>
+            <Link to={"/me"}>
+                 <div className='border rounded-xl p-2 flex'>
                 <User size={22} />
                 {name}
             </div>
+            </Link>
           )}
           {!name && !email && (
             <div className='ml-auto flex gap-4 items-center'>

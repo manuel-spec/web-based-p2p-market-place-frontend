@@ -11,6 +11,7 @@ import Login from './components/auth/login.jsx'
 import Products from './components/products/products.jsx'
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import Profile from './components/profile/profile.jsx'
 
 const ProtectedRoute = ({ element: Component }) => {
   const cookies = new Cookies();
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/products',
            element: <ProtectedRoute element={Products} />,
+      },
+      {
+        path: '/me',
+           element: <ProtectedRoute element={Profile} />,
       }
     ]
   },

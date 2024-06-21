@@ -29,6 +29,7 @@ export default function Login() {
         cookie.set("jwt", res.data.access_token, {path: "/"})
         cookie.set("name", res.data.user.name, {path: "/"})
         cookie.set("email", res.data.user.email, {path: "/"})
+        cookie.set("username", res.data.user.username, {path: "/"})
         setLoading(false)
         navigate("/products")
       }).catch((err)=>{
