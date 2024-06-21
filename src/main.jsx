@@ -13,6 +13,7 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import Profile from './components/profile/profile.jsx'
 import About from './components/about/about';
+import Contact from './components/contact/contact.jsx'
 
 const ProtectedRoute = ({ element: Component }) => {
   const cookies = new Cookies();
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
            element: <About />,
+      },
+      {
+        path: '/contact',
+           element: <Contact />,
       }
     ]
   },
