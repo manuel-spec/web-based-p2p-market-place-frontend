@@ -72,7 +72,7 @@ export default function Login() {
           </CardFooter>
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link to="/auth/signup" className="text-indigo-600 hover:underline">
                 Sign up
               </Link>

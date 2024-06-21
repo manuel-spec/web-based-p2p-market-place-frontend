@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { useEffect,useState } from 'react';
+
+import { User } from 'lucide-react';
 
 const Nav = () => {
+    const cookies = new Cookies();
+    const [name, setName] = useState(null);
+    const [email, setEmail] = useState(null);
+
+    useEffect(() => {
+        setName(cookies.get("name"))
+        setEmail(cookies.get("email"))
+    },[])
+
+
   return (
     <div>
         <header className="h-20 flex items-center px-6">
@@ -8,7 +22,8 @@ const Nav = () => {
           <MountainIcon className="h-6 w-6" />
           
         </Link>
-        <nav className="ml-auto flex gap-4">
+        <nav className="ml-auto flex gap-4 items-center">
+
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/products"}>
             Products
           </Link>
@@ -18,6 +33,24 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Contact
           </Link>
+          {name && email && (
+            <div className='border rounded-xl p-2 flex'>
+                <User size={22} />
+                {name}
+            </div>
+          )}
+          {!name && !email && (
+            <div>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/signup"}>
+              Sign Up
+            </Link>
+            <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/login"}>
+              Login
+              </Link>
+            </div>
+
+          )}
+
         </nav>
       </header>
     </div>
