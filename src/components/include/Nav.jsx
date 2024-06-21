@@ -27,12 +27,16 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/products"}>
             Products
           </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/add-product"}>
+            Post
+          </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/about"}>
             About
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/contact"}>
             Contact
           </Link>
+          
           {name && email && (
             <Link to={"/me"}>
                  <div className='border rounded-xl p-2 flex'>
