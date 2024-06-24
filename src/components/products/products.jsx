@@ -1,6 +1,5 @@
-"use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -22,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Pagination } from "@/components/ui/pagination";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 function FilterIcon(props) {
   return (
@@ -69,73 +71,40 @@ function ListOrderedIcon(props) {
 
 
 export default function Products() {
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const [products, setProducts] = useState([{}])
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
     price: { min: 0, max: 1000 },
   });
 
-  const products = [
-    {
-      id: 1,
-      image: "https://t3.ftcdn.net/jpg/01/56/55/24/360_F_156552441_xlhQ0Nr4kV1xrxzngI6IjpJ7aeZJQMfD.jpg",
-      title: "Handmade Ceramic Vase",
-      description:
-        "A unique and beautiful ceramic vase, perfect for any home.",
-      price: 45.99,
-      category: "Home & Garden",
-    },
-    {
-      id: 2,
-      image: "https://img.freepik.com/free-vector/modern-desktop-compute-concept-illustration_114360-12156.jpg",
-      title: "Vintage Leather Satchel",
-      description:
-        "A timeless and durable leather satchel, great for everyday use.",
-      price: 89.99,
-      category: "Bags & Accessories",
-    },
-    {
-      id: 3,
-      image: "https://cdn.thewirecutter.com/wp-content/media/2022/08/macbook-2048px-9765.jpg",
-      title: "Artisanal Wooden Cutting Board",
-      description:
-        "A high-quality cutting board made from sustainable wood.",
-      price: 29.99,
-      category: "Home & Garden",
-    },
-    {
-      id: 4,
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/MacBook-Pro-13inch.jpg/800px-MacBook-Pro-13inch.jpg",
-      title: "Handcrafted Wool Scarf",
-      description: "A warm and cozy scarf, perfect for the colder months.",
-      price: 35.99,
-      category: "Bags & Accessories",
-    },
-    {
-      id: 5,
-      image: "https://i.ebayimg.com/images/g/KwQAAOSwXUlkA2t5/s-l400.jpg",
-      title: "Artisanal Ceramic Mug",
-      description:
-        "A beautifully crafted ceramic mug, perfect for your morning coffee.",
-      price: 18.99,
-      category: "Home & Garden",
-    },
-    {
-      id: 6,
-      image: "https://images-cdn.ubuy.co.in/633a9f5e4c1b7c2430346cdd-xxbao-mini-dirt-bike-49cc-dirt-bike.jpg",
-      title: "Vintage Leather Wallet",
-      description:
-        "A durable and stylish leather wallet, perfect for everyday use.",
-      price: 29.99,
-      category: "Bags & Accessories",
-    },
-  ];
+  useEffect(()=>{
+    const fetchData = async () => {
+      await axios.get('http://127.0.0.1:8000/api/products', {headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + cookies.get('jwt')
+    }})
+    .then((response)=>{
+      console.log(response.data)
+      setProducts(response.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+    }
+    
+      fetchData()
+    
+  }, [])
+
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesSearch = product.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+        ? product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        : false;
       const matchesCategory =
         selectedFilters.category.length === 0 ||
         selectedFilters.category.includes(product.category);
@@ -145,7 +114,7 @@ export default function Products() {
       return matchesSearch && matchesCategory && matchesPrice;
     });
   }, [searchTerm, selectedFilters]);
-
+  
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -296,14 +265,15 @@ export default function Products() {
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6 p-10">
-            {currentProducts.map((product) => (
+            {products.map((product) => (
               <div
                 key={product.id}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col"
               >
+                
                 <img
-                  src={product.image}
-                  alt={product.title}
+                  src={"../../../../web-based-p2p-market-place-backend-api/storage/app/public/images/" + product.image}
+                  
                   className="h-48 object-cover rounded-md mb-4"
                   
                 />
@@ -311,7 +281,7 @@ export default function Products() {
                 <p className="text-gray-600 mb-4 flex-grow">{product.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-primary font-semibold">
-                    ${product.price.toFixed(2)}
+                    ${parseFloat(product.price).toFixed(2)}
                   </span>
                   
                   <Drawer className="p-20">

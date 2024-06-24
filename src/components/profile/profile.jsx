@@ -14,6 +14,7 @@ export default function Profile() {
         setName(cookies.get("name"))
         setEmail(cookies.get("email"))
         setUsername(cookies.get("username"))
+        console.log(cookies.get("jwt"))
       },[])
   return (
     <div className="container mx-auto max-w-md px-4 py-12 sm:px-6 lg:px-8">
