@@ -2,36 +2,65 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState,useEffect } from "react";
-import  Cookie  from 'universal-cookie';
+import { useState, useEffect } from "react";
+import Cookie from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Profile() {
-    const [name, setName] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [username, setUsername] = useState(null)
-    const navigate = useNavigate();
-    const cookies = new Cookie()
-      useEffect(() => {
-        setName(cookies.get("name"))
-        setEmail(cookies.get("email"))
-        setUsername(cookies.get("username"))
-        console.log(cookies.get("jwt"))
-      },[])
-    
-      const LogOut = ()=>{
-        cookies.remove("jwt")
-        cookies.remove("name")
-        cookies.remove("email")
-        cookies.remove("username")
-        navigate("/auth/login")
-      }
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const cookies = new Cookie();
+
+  useEffect(() => {
+    setName(cookies.get("name") || "");
+    setEmail(cookies.get("email") || "");
+    setUsername(cookies.get("username") || "");
+    console.log(cookies.get("jwt"));
+  }, []);
+
+  const LogOut = () => {
+    cookies.remove("jwt");
+    cookies.remove("name");
+    cookies.remove("email");
+    cookies.remove("username");
+    navigate("/auth/login");
+  };
+
+  const UpdateUser = (e) => {
+    e.preventDefault(); // Prevent form submission and page reload
+    const userId = cookies.get("id");
+    axios
+      .put(`http://localhost:8000/api/users/${userId}/update`, {
+        name: name,
+        email: email,
+        username: username,
+      }, {
+        headers: {
+          Authorization: `Bearer ${cookies.get("jwt")}`,
+        },
+      
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="container mx-auto max-w-md px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-4">
         <div className="flex items-center justify-center mb-6">
           <Avatar className="h-24 w-24">
-            <img  src="https://img.freepik.com/premium-vector/man-character_665280-46970.jpg" alt="" width={400}/>
+            <AvatarImage
+              src="https://img.freepik.com/premium-vector/man-character_665280-46970.jpg"
+              alt=""
+              width={400}
+            />
             <AvatarFallback>{name && name[0]}</AvatarFallback>
           </Avatar>
         </div>
@@ -39,19 +68,35 @@ export default function Profile() {
           <h1 className="text-3xl font-bold">{name}</h1>
           <p className="mt-2 text-gray-500">Update Your Profile</p>
         </div>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={UpdateUser}>
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" placeholder="Enter your username" onChange={(e)=>setUsername(e.target.value)} value={username}/>
+              <Input
+                id="username"
+                placeholder="Enter your username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" onChange={(e)=>setName(e.target.value)} value={name}/>
+              <Input
+                id="name"
+                placeholder="Enter your name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Enter your email" onChange={(e)=>setEmail(e.target.value)} value={email}/>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="profile-picture">Profile Picture</Label>
@@ -67,7 +112,11 @@ export default function Profile() {
           <Button type="submit" className="w-full">
             Update Profile
           </Button>
-          <Button type="submit" className="w-full bg-red-600" onClick={()=>LogOut()}>
+          <Button
+            type="button"
+            className="w-full bg-red-600"
+            onClick={() => LogOut()}
+          >
             Logout
           </Button>
         </form>

@@ -35,6 +35,7 @@ export default function SignUp() {
       console.log( res.data.access_token)
       cookie.set("jwt", res.data.access_token, {path: "/"})
       cookie.set("name", res.data.user.name, {path: "/"})
+      cookie.set("id", res.data.user.id, {path: "/"})
       cookie.set("email", res.data.user.email, {path: "/"})
       cookie.set("username", res.data.user.username, {path: "/"})
       setLoading(false);

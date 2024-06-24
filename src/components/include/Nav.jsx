@@ -32,21 +32,18 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/add-product"}>
             Post
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/about"}>
+         {username != "admin" && (
+          <div className='ml-auto flex gap-4 items-center'>
+             <Link className="text-sm font-medium hover:underline underline-offset-4 " to={"/about"}>
             About
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/contact"}>
             Contact
           </Link>
+          </div>
+         )}
           
-          {name && email && (
-            <Link to={"/me"}>
-                 <div className='border rounded-xl p-2 flex'>
-                <User size={22} />
-                {name}
-            </div>
-            </Link>
-          )}
+          
           {!name && !email && (
             <div className='ml-auto flex gap-4 items-center'>
             <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/auth/signup"}>
@@ -65,6 +62,14 @@ const Nav = () => {
             </Link>
           
             </div>
+          )}
+          {name && email && (
+            <Link to={"/me"}>
+                 <div className='border rounded-xl p-2 flex'>
+                <User size={22} />
+                {name}
+            </div>
+            </Link>
           )}
 
         </nav>
