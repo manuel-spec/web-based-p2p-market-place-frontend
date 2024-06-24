@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
-  DropdownMenuContent,
+
 } from "@/components/ui/dropdown-menu";
 import {
   Drawer,
@@ -179,7 +179,7 @@ export default function Products() {
                       <Package className="h-12 w-12 text-primary" />
                       <h2 className="text-2xl font-bold text-card-foreground">No Verified Products</h2>
                       <p className="text-muted-foreground">
-                        We're sorry, but there are no verified products available on our P2P marketplace at the moment. Please check
+                        We&apos;re sorry, but there are no verified products available on our P2P marketplace at the moment. Please check
                         back soon as we continue to expand our offerings.
                       </p>
                     </div>

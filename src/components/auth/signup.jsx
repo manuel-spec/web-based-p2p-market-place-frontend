@@ -51,7 +51,7 @@ export default function SignUp() {
   return (
     <div className="grid md:grid-cols-2 w-full min-h-screen">
       <div className="flex items-center justify-center px-4 py-12 md:px-6">
-        <form action="post">
+        <form onSubmit={(e)=>e.preventDefault()}>
         <Card className="w-full max-w-md space-y-4">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>

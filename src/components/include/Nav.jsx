@@ -8,10 +8,12 @@ const Nav = () => {
     const cookies = new Cookies();
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
 
     useEffect(() => {
         setName(cookies.get("name"))
         setEmail(cookies.get("email"))
+        setUsername(cookies.get("username"))
     },[])
 
 
@@ -55,6 +57,14 @@ const Nav = () => {
               </Link>
             </div>
 
+          )}
+          {username == "admin" && (
+            <div className='ml-auto flex gap-4 items-center'>
+            <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/admin/verify"}>
+              verify
+            </Link>
+          
+            </div>
           )}
 
         </nav>

@@ -4,11 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState,useEffect } from "react";
 import  Cookie  from 'universal-cookie';
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const [name, setName] = useState(null)
     const [email, setEmail] = useState(null)
     const [username, setUsername] = useState(null)
+    const navigate = useNavigate();
     const cookies = new Cookie()
       useEffect(() => {
         setName(cookies.get("name"))
@@ -16,6 +18,14 @@ export default function Profile() {
         setUsername(cookies.get("username"))
         console.log(cookies.get("jwt"))
       },[])
+    
+      const LogOut = ()=>{
+        cookies.remove("jwt")
+        cookies.remove("name")
+        cookies.remove("email")
+        cookies.remove("username")
+        navigate("/auth/login")
+      }
   return (
     <div className="container mx-auto max-w-md px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-4">
@@ -56,6 +66,9 @@ export default function Profile() {
           </div>
           <Button type="submit" className="w-full">
             Update Profile
+          </Button>
+          <Button type="submit" className="w-full bg-red-600" onClick={()=>LogOut()}>
+            Logout
           </Button>
         </form>
       </div>
