@@ -1,107 +1,81 @@
-
 import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-
 } from "@/components/ui/dropdown-menu";
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-  } from "@/components/ui/drawer"
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Pagination } from "@/components/ui/pagination";
+import {AArrowDown} from 'lucide-react'
+
 import axios from "axios";
 import Cookies from "universal-cookie";
 // import { useNavigate } from "react-router-dom";
 
-function FilterIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-    </svg>
-  );
-}
-
-function ListOrderedIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="10" x2="21" y1="6" y2="6" />
-      <line x1="10" x2="21" y1="12" y2="12" />
-      <line x1="10" x2="21" y1="18" y2="18" />
-      <path d="M4 6h1v4" />
-      <path d="M4 10h2" />
-      <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
-    </svg>
-  );
-}
-
-
+import { Filter, Package } from "lucide-react";
 
 export default function Products() {
   // const navigate = useNavigate();
   const cookies = new Cookies();
-  const [products, setProducts] = useState([{}])
- 
+  const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
-      await axios.get('http://127.0.0.1:8000/api/products', {headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + cookies.get('jwt')
-    }})
-    .then((response)=>{
-      console.log(response.data)
-      setProducts(response.data)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-    }
-    
-      fetchData()
-    
-  }, [])
+      await axios
+        .get("http://127.0.0.1:8000/api/products", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.get("jwt"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setProducts(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
+    fetchData();
+  }, []);
 
- 
-//   const [drawer, setDrawer] = useState(false);
+  const filteredAndSortedProducts = useMemo(() => {
+    const filteredProducts = products.filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.title.localeCompare(b.title);
+      } else {
+        return b.title.localeCompare(a.title);
+      }
+    });
+
+    return sortedProducts;
+  }, [products, searchQuery, sortOrder]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-        
       <header className="w-full py-24 bg-gray-100 dark:bg-gray-800">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -125,12 +99,11 @@ export default function Products() {
             <h1 className="text-3xl font-bold mb-4 text-center p-5">Products</h1>
             <div className="flex items-center justify-between">
               <div className="relative w-full max-w-md">
-               
                 <Input
                   type="text"
                   placeholder="Search products..."
-                  value=""
-                  onChange=""
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                   className="pl-10 pr-4 py-2 rounded-md border border-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
               </div>
@@ -138,31 +111,29 @@ export default function Products() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline">
-                      <FilterIcon className="mr-2" />
+                    <Filter />
                       Filters
                     </Button>
                   </DropdownMenuTrigger>
-                 
                 </DropdownMenu>
-                <Button variant="outline">
-                  <ListOrderedIcon className="mr-2" />
+                <Button variant="outline" onClick={toggleSortOrder}>
+
+                  <AArrowDown />
                   Sort
                 </Button>
               </div>
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6 p-10">
-            {products.map((product) => (
+            {filteredAndSortedProducts.map((product) => (
+
               <div
                 key={product.id}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col"
-              >
-                
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col">
                 <img
-                  src={"../../../../web-based-p2p-market-place-backend-api/storage/app/public/images/" + product.image}
-                  
+                  src={"http://127.0.0.1:8000/api/images/" + product.image}
                   className="h-48 object-cover rounded-md mb-4"
-                  
+                  alt={product.title}
                 />
                 <h3 className="text-lg font-bold mb-2">{product.title}</h3>
                 <p className="text-gray-600 mb-4 flex-grow">{product.description}</p>
@@ -170,39 +141,52 @@ export default function Products() {
                   <span className="text-primary font-semibold">
                     ${parseFloat(product.price).toFixed(2)}
                   </span>
-                  
                   <Drawer className="p-20">
                     <DrawerTrigger asChild>
-                        
-                        <Button >More ..</Button>
-                        
+                      <Button>More ..</Button>
                     </DrawerTrigger>
                     <DrawerContent>
-                        <div className="mx-auto w-full max-w-sm">
+                      <div className="mx-auto w-full max-w-sm">
                         <DrawerHeader>
-                            <DrawerTitle>Info About the Product</DrawerTitle>
-                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
-                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
-                            <DrawerDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate molestiae necessitatibus distinctio magnam sint ipsam incidunt corrupti quos, odio id error fugit itaque delectus unde perferendis dignissimos similique quia quo!</DrawerDescription>
-                            
+                          <img
+                            src={"http://127.0.0.1:8000/api/images/" + product.image}
+                            className="h-48 object-cover rounded-md mb-4"
+                            alt={product.title}
+                          />
+                          <h3 className="text-lg font-bold mb-2">{product.title}</h3>
+                          <p className="text-gray-600 mb-4 flex-grow">{product.description}</p>
                         </DrawerHeader>
-                    
                         <DrawerFooter>
-                          
-                            <DrawerClose asChild>
+                          <DrawerClose asChild>
                             <Button variant="outline">Cancel</Button>
-                            </DrawerClose>
+                          </DrawerClose>
                         </DrawerFooter>
-                        </div>
+                      </div>
                     </DrawerContent>
-                    </Drawer>
+                  </Drawer>
                 </div>
               </div>
             ))}
+
+            
           </div>
-          <div className="mt-8">
-          
-          </div>
+          <div className="mt-8"></div>
+          {filteredAndSortedProducts && filteredAndSortedProducts.length === 0 && (
+              <div>
+                 <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+                  <div className="max-w-md px-6 py-12 bg-card rounded-lg shadow-lg">
+                    <div className="flex flex-col items-center justify-center gap-4">
+                      <Package className="h-12 w-12 text-primary" />
+                      <h2 className="text-2xl font-bold text-card-foreground">No Verified Products</h2>
+                      <p className="text-muted-foreground">
+                        We're sorry, but there are no verified products available on our P2P marketplace at the moment. Please check
+                        back soon as we continue to expand our offerings.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
         </section>
       </main>
     </div>
