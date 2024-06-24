@@ -23,7 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Pagination } from "@/components/ui/pagination";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function FilterIcon(props) {
   return (
@@ -71,7 +71,7 @@ function ListOrderedIcon(props) {
 
 
 export default function Products() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const cookies = new Cookies();
   const [products, setProducts] = useState([{}])
   const [searchTerm, setSearchTerm] = useState("");
