@@ -74,11 +74,7 @@ export default function Products() {
   // const navigate = useNavigate();
   const cookies = new Cookies();
   const [products, setProducts] = useState([{}])
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilters, setSelectedFilters] = useState({
-    category: [],
-    price: { min: 0, max: 1000 },
-  });
+ 
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -100,54 +96,7 @@ export default function Products() {
   }, [])
 
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const matchesSearch = product.title
-        ? product.title.toLowerCase().includes(searchTerm.toLowerCase())
-        : false;
-      const matchesCategory =
-        selectedFilters.category.length === 0 ||
-        selectedFilters.category.includes(product.category);
-      const matchesPrice =
-        product.price >= selectedFilters.price.min &&
-        product.price <= selectedFilters.price.max;
-      return matchesSearch && matchesCategory && matchesPrice;
-    });
-  }, [searchTerm, selectedFilters]);
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFilterChange = (type, value) => {
-    if (type === "category") {
-      setSelectedFilters({
-        ...selectedFilters,
-        category: selectedFilters.category.includes(value)
-          ? selectedFilters.category.filter((item) => item !== value)
-          : [...selectedFilters.category, value],
-      });
-    } else if (type === "price") {
-      setSelectedFilters({
-        ...selectedFilters,
-        price: value,
-      });
-    }
-  };
+ 
 //   const [drawer, setDrawer] = useState(false);
 
   return (
@@ -180,8 +129,8 @@ export default function Products() {
                 <Input
                   type="text"
                   placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={handleSearchChange}
+                  value=""
+                  onChange=""
                   className="pl-10 pr-4 py-2 rounded-md border border-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
               </div>
@@ -193,69 +142,7 @@ export default function Products() {
                       Filters
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-64 p-4">
-                    <div className="grid gap-4">
-                      <div>
-                        <h4 className="font-medium mb-2">Category</h4>
-                        <div className="grid gap-2">
-                          <Label className="flex items-center gap-2">
-                            <Checkbox
-                              checked={selectedFilters.category.includes(
-                                "Home & Garden"
-                              )}
-                              onCheckedChange={() =>
-                                handleFilterChange("category", "Home & Garden")
-                              }
-                            />
-                            Home & Garden
-                          </Label>
-                          <Label className="flex items-center gap-2">
-                            <Checkbox
-                              checked={selectedFilters.category.includes(
-                                "Bags & Accessories"
-                              )}
-                              onCheckedChange={() =>
-                                handleFilterChange(
-                                  "category",
-                                  "Bags & Accessories"
-                                )
-                              }
-                            />
-                            Bags & Accessories
-                          </Label>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium mb-2">Price Range</h4>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="number"
-                            value={selectedFilters.price.min}
-                            onChange={(e) =>
-                              handleFilterChange("price", {
-                                ...selectedFilters.price,
-                                min: parseInt(e.target.value),
-                              })
-                            }
-                            className="w-full rounded-md border border-muted px-3 py-2"
-                            placeholder="Min"
-                          />
-                          <input
-                            type="number"
-                            value={selectedFilters.price.max}
-                            onChange={(e) =>
-                              handleFilterChange("price", {
-                                ...selectedFilters.price,
-                                max: parseInt(e.target.value),
-                              })
-                            }
-                            className="w-full rounded-md border border-muted px-3 py-2"
-                            placeholder="Max"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </DropdownMenuContent>
+                 
                 </DropdownMenu>
                 <Button variant="outline">
                   <ListOrderedIcon className="mr-2" />
@@ -314,11 +201,7 @@ export default function Products() {
             ))}
           </div>
           <div className="mt-8">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+          
           </div>
         </section>
       </main>
