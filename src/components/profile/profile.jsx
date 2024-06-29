@@ -45,6 +45,9 @@ export default function Profile() {
       })
       .then((res) => {
         console.log(res.data);
+        cookies.set("name", res.data.name);
+        cookies.set("email", res.data.email);
+        cookies.set("username", res.data.username);
       })
       .catch((err) => {
         console.log(err);
