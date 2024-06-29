@@ -34,18 +34,21 @@ export default function MyProducts() {
   }, []);
   const [sort, setSort] = useState("featured")
   
-  const handleDelete = (id) => {
-    setProducts(products.filter((product) => product.id !== id))
-  }
-  const handleUpdate = (id, updates) => {
-    setProducts(
-      products.map((product) => {
-        if (product.id === id) {
-          return { ...product, ...updates }
-        }
-        return product
-      }),
-    )
+  const handleDelete = async (id) => {
+    console.log(id)
+    await axios
+        .post(`http://localhost:8000/api/products/${id}/delete`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.get("jwt"),
+          },
+        })
+        .then((response) => {
+          window.location.reload()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }
   return (
     <main className="flex-1 py-8">
@@ -95,12 +98,6 @@ export default function MyProducts() {
                       
                      
                         <>
-                          <Button
-                            variant="outline"
-                            onClick={() => handleUpdate(product.id, { title: "Updated Product" })}
-                          >
-                            Update
-                          </Button>
                           <Button variant="danger" onClick={() => handleDelete(product.id)}>
                             Delete
                           </Button>
