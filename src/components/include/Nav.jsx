@@ -40,6 +40,9 @@ const Nav = () => {
           <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/contact"}>
             Contact
           </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to={"/my-products"}>
+            myProducts
+          </Link>
           </div>
          )}
           

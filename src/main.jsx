@@ -17,6 +17,7 @@ import Contact from './components/contact/contact.jsx'
 import Post from './components/post/post.jsx'
 import verify from './components/post/verify';
 import Verify from './components/post/verify'
+import MyProducts from './components/products/my_products.jsx'
 
 const ProtectedRoute = ({ element: Component }) => {
   const cookies = new Cookies();
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: '/products',
            element: <ProtectedRoute element={Products} />,
+      },
+      {
+        path: '/my-products',
+           element: <ProtectedRoute element={MyProducts} />,
       },
       {
         path: '/me',
